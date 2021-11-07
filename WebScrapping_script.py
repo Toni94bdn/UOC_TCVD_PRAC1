@@ -21,7 +21,7 @@ def main(in_url):
         cItems = readItemsPage(cSoup)
         result = readItemsInfo(cItems,result)
     result_df = pd.DataFrame(result) 
-    result_df.to_csv('results.csv')
+    result_df.to_csv('barcelona_rents.csv')
     del result
     print(result_df)
 
