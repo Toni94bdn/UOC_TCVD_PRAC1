@@ -21,6 +21,8 @@ def main(in_url):
         cItems = readItemsPage(cSoup)
         result = readItemsInfo(cItems,result)
     result_df = pd.DataFrame(result) 
+    result_df.to_csv('results.csv')
+    del result
     print(result_df)
 
 def readPage(in_url):
@@ -88,12 +90,14 @@ def readItemsInfo(in_itemsList,result):
             surfprice = ''
         #-----------------------------------------------
         premium = False
-        if (len(citem.find('div', {'class' : 'list-item-premium'}).text)!= 0):
+        if (citem.find('div', {'class' : 'list-item-premium'}).text.upper().rfind('PREMIUM')>0):
             premium = True
+        #-----------------------------------------------
         updt_date = citem.find('span', {'class' : 'list-item-date'}).text
         updt_date = re.sub(r'[^\d]','',updt_date)
         if(len(updt_date)<=0):
             updt_date = 0
+        #-----------------------------------------------
         result.append(
             {
                 'location':location,
